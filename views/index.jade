@@ -1,0 +1,122 @@
+doctype html
+html
+	head
+		meta(name="viewport",content="width=device-width, initial-scale=1.0")
+		script(src='/js/socket.io.js')
+		script(src='/js/jquery-1.11.1.min.js')
+		script(src='/js/index.js')
+		script(src='/js/bootstrap.min.js')
+		link(rel='stylesheet', href='/css/bootstrap.min.css')
+		link(rel='stylesheet', href='/css/bootstrap-responsive.css')
+	body
+		div(class="navbar")
+			div(class="navbar-inner")
+					div#dashboard
+						div(class="alert alert-info",role="alert")
+							div(class="container")
+								div(class="col-md-9")
+									a#createStory(data-toggle="modal",href="#myModal",class="btn btn-primary") Create Story
+								div(class="col-md-3") 
+									span#welcomeTag
+						for story in stories
+							div(class="panel-group")#accordion
+								div(class="panel panel-default")
+									div(class="panel-heading")
+										div(class="col-md-10")
+											h4(class="panel-title")
+												a(data-toggle="collapse",data-parent="#accordion",href="#collapsible"+story.id)=	story.title
+										div(class="colo-md-2")
+											span(class="glyphicon glyphicon-tasks",title="New Task",data-toggle="modal",data-target="#newTaskDialog",data-id=story.id)#newTaskBtns
+									div(id='collapsible'+story.id,class="panel-collapse collapse")
+										div(class="panel-body")
+											div(class="list-group")
+												each task in story.taskList
+													div(class="list-group-item")
+														div(class="container")
+															div(class="row")
+																div(class="col-md-6")
+																	div(class="col-md-1")
+																		span#taskIdVal(class="badge")= task.taskid
+																	div(class="col-md-11")
+																		a(href="#")= task.taskTitle
+																div(class="col-md-4")
+																	div(data-toggle="buttons",class="btn-group")
+																		label(class="btn btn-sm btn-info")
+																			input(type="radio",name="options"+task.taskid)
+																			| Created
+																		label(class="btn btn-sm btn-warning")
+																			input(type="radio",name="options"+task.taskid)
+																			| In Progress
+																		label(class="btn btn-sm btn-success")
+																			input(type="radio",name="options"+task.taskid)
+																			| Completed
+																div(class="col-md-2")
+																	div(class="col-md-6")
+																		if(task.ownedBy == "unassigned") 
+																			span(class="glyphicon glyphicon-send assigntome",data-taskid=task.taskid)#assignToMeBtn
+																		else
+																			span#ownedBy= task.ownedBy
+																			span(class="glyphicon glyphicon-remove unassign",data-taskid=task.taskid)#unassignBtn
+																	div(class="col-md-6")
+																		span(class="badge")= task.priority
+						else
+							div	No Stories Created!!
+		div#myModal(class="modal fade")
+			div(class="modal-dialog")
+				div(class="modal-content")
+					div(class="modal-header")
+						button(type="button",class="close",data-dismiss="modal",aria-hidden="true")	&times;
+						h4(class="modal-title") Create Story
+					div(class="modal-body")
+						fieldset
+							div(class="form-horizontal")#storyInfo
+								div(class="control-group")
+									div(class="controls")
+										input(class="span4",type="text", id="title", placeholder="Enter the story title.")
+								div(class="control-group")
+									div(class="controls")
+										textarea(class="span4",type="text",id="desc",placeholder="Describe your story.")
+					div(class="modal-footer")
+						button(type="button",class="btn btn-default",data-dismiss="modal") Close
+						button(type="button",class="btn btn-primary")#saveStory Save changes
+		
+		div#newTaskDialog(class="modal fade")
+			div(class="modal-dialog")
+				div(class="modal-content")
+					div(class="modal-header")
+						h4(class="modal-title") Create Tasks for Story With ID 
+							span#storyIDforTasks
+					div(class="modal-body")
+						fieldset
+							div(class="form-horizontal")#taskInfo
+								div(class="control-group")
+									div(class="controls")
+										input(class="form-control",type="text", id="taskTitle", placeholder="Enter the task title.")
+								div(class="control-group")
+									div(class="controls")
+										textarea(class="form-control",type="text",id="taskDesc",placeholder="Describe your task.")
+								div(class="control-group")
+									div(class="controls")
+										select(class="form-control")#priority
+											option(value="1") 1
+											option(value="2") 2
+											option(value="3",selected) 3
+											option(value="4") 4
+											option(value="5") 5			
+					div(class="modal-footer")
+						button(type="button",class="btn btn-default",data-dismiss="modal") Close
+						button(type="button",class="btn btn-primary")#saveTask Save changes
+		div#userInfoDialog(class="modal fade")
+			div(class="modal-dialog")
+				div(class="modal-content")
+					div(class="modal-header")
+						h4(class="modal-title") Enter your name to proceed :
+					div(class="modal-body")
+						fieldset
+							div(class="control-group")
+								div(class="controls")
+									input(class="form-control",type="text",id="userName",placeholder="Enter your name.")
+									input(class="form-control",type="password",id="password",placeholder="Enter Password.")
+					div(class="modal-footer")
+						button(type="button",class="btn btn-primary")#saveUserBtn Save and Proceed
+	
