@@ -1,4 +1,11 @@
 {
+  "name": "StoryRoom",
+  "version": "0.0.1",
+  "description": "This is a simple app to manage tasks among team members",
+  "main": "Server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
     "express": "3.1.0",
     "jade": "*",
@@ -7,5 +14,20 @@
 	"mongo": "*",
 	"passport": "*",
 	"passport-local": "*"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/crazylearner/StoryRoom.git"
+  },
+  "keywords": [
+    "Story",
+    "Task",
+    "Team"
+  ],
+  "author": "crazylearner",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/crazylearner/StoryRoom/issues"
+  },
+  "homepage": "https://github.com/crazylearner/StoryRoom"
 }
